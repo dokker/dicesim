@@ -100,4 +100,9 @@ class Combatant
 			return true;
 		}
 	}
+
+	public function getName()
+	{
+		return $this->attributes['name'];
+	}
 }

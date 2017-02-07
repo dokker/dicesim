@@ -16,6 +16,9 @@ class Controller
 		$this->combatant1 = new \diceSim\Combatant($combatants[0]);
 		$this->combatant2 = new \diceSim\Combatant($combatants[1]);
 		$this->dice = new \diceSim\Dice(['sides' => 10]);
+
+		$loader = new \Twig_Loader_Filesystem('templates');
+		$this->twig = new \Twig_Environment($loader);
 	}
 
 	public function getHighest(array $rolls)
@@ -51,11 +54,11 @@ class Controller
 		// get active combatant
 		switch ($this->active_combatant) {
 			case 1:
-				$combatant = $this->combatant1;
+				$attacker = $this->combatant1;
 				$enemy = $this->combatant2;
 				break;
 			case 2:
-				$combatant = $this->combatant2;
+				$attacker = $this->combatant2;
 				$enemy = $this->combatant1;
 				break;
 		}
@@ -66,15 +69,33 @@ class Controller
 			$this->dice->roll()
 		];
 
+		// Handle attack
+		$success = false;
 		$percentile_att = $this->normalizeD100($this->attack);
-		if ($combatant->attack($percentile_att)) {
+		if ($attacker->attack($percentile_att)) {
 			if ($percentile_att > $enemy->getDef()) {
-				$enemy->injure($this->getHighest($this->attack));
-				$enemy->injureDef($this->getHighest($this->attack));
+				$hpdamage = $enemy->injure($this->getHighest($this->attack));
+				$defdamage = $enemy->injureDef($this->getHighest($this->attack));
 			} else {
-				$enemy->injureDef($this->getHighest($this->attack));
+				$defdamage = $enemy->injureDef($this->getHighest($this->attack));
 			}
+			$success = true;
 		}
+
+		// Structure attack data
+		$data = [
+			'success' => $success,
+			'attacker' => [
+				'name' => $attacker->getName(),
+				'roll' => sprintf("%02d", $percentile_att),
+			],
+			'enemy' => [
+				'name' => $enemy->getName(),
+				'hpdamage' => sprintf("%01d", $hpdamage),
+				'defdamage' => sprintf("%01d", $defdamage),
+			],
+		];
+		echo $this->twig->render('attack.html', $data);
 
 		if ($this->combatant1->hasAction || $this->combatant2->hasAction() || $enemy->died()) {
 			$this->changeActive();

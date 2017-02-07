@@ -13,7 +13,6 @@ class Dice
 	public function roll()
 	{
 		$roll = rand(1, $this->attributes['sides']);
-		var_dump($roll);
 		return (int)$roll;
 	}
 }
