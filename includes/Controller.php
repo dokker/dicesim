@@ -97,7 +97,7 @@ class Controller
 		];
 		echo $this->twig->render('attack.html', $data);
 
-		if ($this->combatant1->hasAction || $this->combatant2->hasAction() || $enemy->died()) {
+		if ($this->combatant1->hasAction() || $this->combatant2->hasAction()) {
 			$this->changeActive();
 			$this->activateCombatant();
 		}
