@@ -66,7 +66,7 @@ class Combatant
 	{
 		if ($this->hasAction()) {
 			$this->actions--;
-			if ($value >= $attributes['att']) {
+			if ($value <= $this->attributes['att']) {
 				$this->attacks[] = true;
 				return true;
 			}
