@@ -8,8 +8,10 @@ class Controller
 	private $combatant2;
 	private $init;
 	private $attack;
-	private $round;
+	private $round = 1;
 	private $active_combatant;
+	private $actions_html = '';
+	private $round_html = '';
 
 	public function __construct(array $combatants)
 	{
@@ -37,16 +39,29 @@ class Controller
 	public function start()
 	{
 		$this->execRound();
+		echo $this->round_html;
 		$this->stats();
 	}
 
 	private function execRound()
 	{
-		$this->round++;
 		$this->combatant1->resetActions();
 		$this->combatant2->resetActions();
 		$this->active_combatant = $this->getInit();
 		$this->activateCombatant();
+
+		$data = [
+			'round' => sprintf("%02d", $this->round),
+			'actions' => $this->actions_html,
+		];
+		$this->actions_html = '';
+		$this->round_html .= $this->twig->render('round.html', $data);
+
+		$this->round++;
+
+		if (!$this->combatant1->died() && !$this->combatant2->died()) {
+			$this->execRound();
+		}
 	}
 
 	private function activateCombatant()
@@ -95,9 +110,9 @@ class Controller
 				'defdamage' => sprintf("%01d", $defdamage),
 			],
 		];
-		echo $this->twig->render('attack.html', $data);
+		$this->actions_html .= $this->twig->render('attack.html', $data);
 
-		if ($this->combatant1->hasAction() || $this->combatant2->hasAction()) {
+		if (($this->combatant1->hasAction() || $this->combatant2->hasAction()) && !$enemy->died()) {
 			$this->changeActive();
 			$this->activateCombatant();
 		}
