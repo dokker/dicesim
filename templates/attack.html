@@ -1,5 +1,5 @@
 <div class="attack {{ success == true ? 'success' : '' }}">
-	<h2>{{ attacker.name }} attacks and roll {{ attacker.roll }}</h2>
+	<h3>{{ attacker.name }} attacks with {{ attacker.roll }}</h3>
 	<div class="result">
 		{% if success == true %}
 			<p>{{ enemy.name }} suffers {{ enemy.hpdamage }} HP and {{ enemy.defdamage }} Defense</p>
