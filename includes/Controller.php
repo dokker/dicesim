@@ -10,8 +10,9 @@ class Controller
 	private $attack;
 	private $round = 1;
 	private $active_combatant;
-	private $actions_html = '';
-	private $round_html = '';
+
+	private $rounds_data;
+	private $actions_data;
 
 	public function __construct(array $combatants)
 	{
@@ -20,7 +21,8 @@ class Controller
 		$this->dice = new \diceSim\Dice(['sides' => 10]);
 
 		$loader = new \Twig_Loader_Filesystem('templates');
-		$this->twig = new \Twig_Environment($loader);
+		$this->twig = new \Twig_Environment($loader, ['debug' => true]);
+		$this->twig->addExtension(new \Twig_Extension_Debug());
 	}
 
 	public function getHighest(array $rolls)
@@ -39,7 +41,7 @@ class Controller
 	public function start()
 	{
 		$this->execRound();
-		echo $this->round_html;
+		echo $this->twig->render('base.html.twig', ['rounds' => $this->rounds_data]);
 		$this->stats();
 	}
 
@@ -51,11 +53,12 @@ class Controller
 		$this->activateCombatant();
 
 		$data = [
-			'round' => sprintf("%02d", $this->round),
-			'actions' => $this->actions_html,
+			'num' => sprintf("%02d", $this->round),
+			'actions' => $this->actions_data,
 		];
-		$this->actions_html = '';
-		$this->round_html .= $this->twig->render('round.html', $data);
+
+		$this->actions_data = [];
+		$this->rounds_data[] = $data;
 
 		$this->round++;
 
@@ -110,7 +113,8 @@ class Controller
 				'defdamage' => sprintf("%01d", $defdamage),
 			],
 		];
-		$this->actions_html .= $this->twig->render('attack.html', $data);
+
+		$this->actions_data[] = $data;
 
 		if (($this->combatant1->hasAction() || $this->combatant2->hasAction()) && !$enemy->died()) {
 			$this->changeActive();
