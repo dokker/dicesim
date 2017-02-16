@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -16,10 +17,12 @@
 		<h2 class="list-group-item active round-num">Round {{round.num}}</h2>
 		{% for action in round.actions %}
 			<div class="list-group-item attack {{ action.success == true ? 'success' : '' }}">
-				<h3 class="list-group-item-heading">{{ action.attacker.name }} attacks with {{ action.attacker.roll }}</h3>
+				<h3 class="list-group-item-heading"><span class="weak">{{ action.attacker.name }} attacks with</span> {{ action.attacker.roll }}</h3>
 				<div class="result">
 					{% if action.success == true %}
-						<p class="list-group-item-text">{{ action.enemy.name }} suffers {{ action.enemy.hpdamage }} HP and {{ action.enemy.defdamage }} Defense</p>
+						<p class="list-group-item-text">{{ action.enemy.name }} suffers
+							<span class="label {{ action.enemy.hpdamage > 0 ? 'label-warning' : 'label-default'}}">{{ action.enemy.hpdamage }} HP</span> and
+							<span class="label {{ action.enemy.defdamage > 0 ? 'label-warning' : 'label-default'}}">{{ action.enemy.defdamage }} Def</span></p>
 					{% else %}
 						<p class="label label-danger">miss</p>
 					{% endif %}
