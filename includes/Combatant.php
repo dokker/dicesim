@@ -23,9 +23,8 @@ class Combatant
 	 */
 	public function injure(int $amount)
 	{
-		$damage = ($amount - $this->attributes['armor']) > 0 ? ($amount - $this->attributes['armor']) : 0;
 		$hp = $this->temp_hp;
-		$hp = $hp - ($damage);
+		$hp = $hp - $amount;
 		if ($hp < 1) {
 			$hp = 0;
 		}
@@ -36,15 +35,18 @@ class Combatant
 
 	public function injureDef(int $amount)
 	{
-		$damage = ($amount - $this->attributes['armor']) > 0 ? ($amount - $this->attributes['armor']) : 0;
-		$def = $this->temp_def;
-		$def = $def - ($damage);
-		if ($def < 1) {
-			$def = 0;
+		$origdef = $this->temp_def;
+		$newdef = $this->temp_def - $amount;
+		if ($origdef > 0) {
+			if ($newdef > 0) {
+				$this->temp_def = $newdef;
+			} else {
+				$this->temp_def = 0;
+			}
+			return $origdef - $newdef;
+		} else {
+			return 0;
 		}
-		$difference = $this->temp_def - $def;
-		$this->temp_def = $def;
-		return $difference;
 	}
 
 	/**
@@ -63,6 +65,16 @@ class Combatant
 	public function getDef()
 	{
 		return $this->temp_def;
+	}
+
+	public function getArmor()
+	{
+		return $this->attributes['armor'];
+	}
+
+	public function getHP()
+	{
+		return $temp_hp;
 	}
 
 	/**

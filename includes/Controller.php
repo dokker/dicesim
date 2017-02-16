@@ -91,11 +91,18 @@ class Controller
 		$success = false;
 		$percentile_att = $this->normalizeD100($this->attack);
 		if ($attacker->attack($percentile_att)) {
+			$damage = $this->getHighest($this->attack);
+
 			if ($percentile_att > $enemy->getDef()) {
-				$hpdamage = $enemy->injure($this->getHighest($this->attack));
-				$defdamage = $enemy->injureDef($this->getHighest($this->attack));
+				$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+				$hpdamage = $enemy->injure($hpdamage);
+				$defdamage = $enemy->injureDef($hpdamage);
 			} else {
-				$defdamage = $enemy->injureDef($this->getHighest($this->attack));
+				$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+				$defdamage = $enemy->injureDef($defdamage);
+				if ($defdamage < 0) {
+					$hpdamage = $enemy->injure(abs($defdamage));
+				}
 			}
 			$success = true;
 		}
