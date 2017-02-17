@@ -15,6 +15,7 @@ class Controller
 
 	private $battle_data;
 	private $actions_data;
+	private $test_data;
 
 	public function __construct(array $combatants)
 	{
@@ -51,16 +52,17 @@ class Controller
 		$this->execRound();
 		$this->battle_data['winner'] = $this->combatants[$this->active_combatant]->getName();
 		$this->battle_data['rounds_num'] = $this->round;
-		$this->stats();
+		$this->battleStats();
 	}
 
 	public function startTest($repeat)
 	{
 		for ($round = 1; $battle < $repeat; $battle++) {
 			$this->startBattle();
-			$this->test_data[] = $this->battle_data;
+			$this->test_data['battles'][] = $this->battle_data;
 			$this->battle++;
 		}
+		$this->testStats();
 		// echo $this->twig->render('base.html.twig', ['rounds' => $this->battle_data]);
 		echo $this->twig->render('base.html.twig', ['test' => $this->test_data]);
 	}
@@ -205,8 +207,25 @@ class Controller
 		return (int)$roll;
 	}
 
-	private function stats()
+	private function battleStats()
 	{
+		$this->battle_data['stats'] = [];
+	}
+
+	private function getAverageRounds($battles)
+	{
+		$round_sum = 0;
+		foreach ($battles as $battle) {
+			$round_sum += $battle['rounds_num'];
+		}
+		return $round_sum / count($battles);
+	}
+
+	private function testStats()
+	{
+		$this->test_data['stats'] = [
+			'average_rounds' => $this->getAverageRounds($this->test_data['battles']),
+		];
 	}
 
 	private function battleReset()
