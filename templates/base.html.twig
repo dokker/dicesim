@@ -13,16 +13,16 @@
 
 <div class="container main-container">
 <div id="accordion" class="panel-group">
-	{% for rounds in test %}
+	{% for battle in test %}
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h2 class="panel-title">
-					<a data-toggle="collapse" href="#collapse-{{ loop.index }}" data-parent="#accordion"> Battle #{{ loop.index }} </a>
+					<a data-toggle="collapse" href="#collapse-{{ loop.index }}" data-parent="#accordion">Battle #{{ loop.index }} has been won by {{ battle.winner }} in {{ battle.rounds_num }} rounds </a>
 				</h2>
 			</div>
 			<div id="collapse-{{ loop.index }}" class="panel-collapse collapse">
 				<div class="panel-body">
-				{% for round in rounds %}
+				{% for round in battle.rounds %}
 					<div class="list-group round">
 						<h3 class="list-group-item active round-num">Round {{round.num}}</h3>
 						{% for action in round.actions %}

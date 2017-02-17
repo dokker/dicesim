@@ -4,21 +4,22 @@ namespace diceSim;
 class Controller
 {
 
-	private $combatant1;
-	private $combatant2;
+	// private $combatant1;
+	// private $combatant2;
+	private $combatants;
 	private $init;
 	private $attack;
 	private $round = 1;
 	private $battle = 1;
 	private $active_combatant;
 
-	private $rounds_data;
+	private $battle_data;
 	private $actions_data;
 
 	public function __construct(array $combatants)
 	{
-		$this->combatant1 = new \diceSim\Combatant($combatants[0]);
-		$this->combatant2 = new \diceSim\Combatant($combatants[1]);
+		$this->combatants[] = new \diceSim\Combatant($combatants[0]);
+		$this->combatants[] = new \diceSim\Combatant($combatants[1]);
 		$this->dice = new \diceSim\Dice(['sides' => 10]);
 
 		$loader = new \Twig_Loader_Filesystem('templates');
@@ -48,7 +49,8 @@ class Controller
 	{
 		$this->battleReset();
 		$this->execRound();
-		// $this->rounds_data['battle'] = $this->battle;
+		$this->battle_data['winner'] = $this->combatants[$this->active_combatant]->getName();
+		$this->battle_data['rounds_num'] = $this->round;
 		$this->stats();
 	}
 
@@ -56,17 +58,18 @@ class Controller
 	{
 		for ($round = 1; $battle < $repeat; $battle++) {
 			$this->startBattle();
-			$this->test_data[] = $this->rounds_data;
+			$this->test_data[] = $this->battle_data;
 			$this->battle++;
 		}
-		// echo $this->twig->render('base.html.twig', ['rounds' => $this->rounds_data]);
+		// echo $this->twig->render('base.html.twig', ['rounds' => $this->battle_data]);
 		echo $this->twig->render('base.html.twig', ['test' => $this->test_data]);
 	}
 
 	private function execRound()
 	{
-		$this->combatant1->resetActions();
-		$this->combatant2->resetActions();
+		foreach ($this->combatants as $combatant) {
+			$combatant->resetActions();
+		}
 		$this->active_combatant = $this->getInit();
 		$this->activateCombatant();
 
@@ -76,11 +79,11 @@ class Controller
 		];
 
 		$this->actions_data = [];
-		$this->rounds_data[] = $data;
+		$this->battle_data['rounds'][] = $data;
 
 		$this->round++;
 
-		if (!$this->combatant1->died() && !$this->combatant2->died()) {
+		if (!$this->combatants[0]->died() && !$this->combatants[1]->died()) {
 			$this->execRound();
 		}
 	}
@@ -89,13 +92,13 @@ class Controller
 	{
 		// get active combatant
 		switch ($this->active_combatant) {
-			case 1:
-				$attacker = $this->combatant1;
-				$enemy = $this->combatant2;
+			case 0:
+				$attacker = $this->combatants[0];
+				$enemy = $this->combatants[1];
 				break;
-			case 2:
-				$attacker = $this->combatant2;
-				$enemy = $this->combatant1;
+			case 1:
+				$attacker = $this->combatants[1];
+				$enemy = $this->combatants[0];
 				break;
 		}
 
@@ -150,7 +153,7 @@ class Controller
 
 		$this->actions_data[] = $data;
 
-		if (($this->combatant1->hasAction() || $this->combatant2->hasAction()) && !$enemy->died()) {
+		if (($this->combatants[0]->hasAction() || $this->combatants[1]->hasAction()) && !$enemy->died()) {
 			$this->changeActive();
 			$this->activateCombatant();
 		}
@@ -158,22 +161,22 @@ class Controller
 
 	private function changeActive()
 	{
-		if ($this->active_combatant == 1) {
-			$this->active_combatant = 2;
-		} else {
+		if ($this->active_combatant == 0) {
 			$this->active_combatant = 1;
+		} else {
+			$this->active_combatant = 0;
 		}
 	}
 
 	private function getInit()
 	{
-		$init1 = $this->combatant1->getInit();
+		$init1 = $this->combatants[0]->getInit();
 		do {
 			$roll = $this->dice->roll();
 			$init1 += $roll;
 		} while($roll == 10);
 
-		$init2 = $this->combatant2->getInit();
+		$init2 = $this->combatants[1]->getInit();
 		do {
 			$roll = $this->dice->roll();
 			$init2 += $roll;
@@ -181,9 +184,9 @@ class Controller
 
 		// GLITCH: Doesn't handle the equation in init
 		if ($init1 > $init2) {
-			return 1;
+			return 0;
 		} else {
-			return 2;
+			return 1;
 		}
 	}
 
@@ -208,9 +211,9 @@ class Controller
 
 	private function battleReset()
 	{
-		$this->rounds_data = [];
+		$this->battle_data = [];
 		$this->round = 1;
-		$this->combatant1->reset();
-		$this->combatant2->reset();
+		$this->combatants[0]->reset();
+		$this->combatants[1]->reset();
 	}
 }
