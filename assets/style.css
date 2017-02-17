@@ -1,3 +1,7 @@
 .weak {
 	font-size: 0.9em;
 }
+
+.main-container {
+	margin-top: 20px;
+}
