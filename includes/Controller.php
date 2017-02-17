@@ -9,6 +9,7 @@ class Controller
 	private $init;
 	private $attack;
 	private $round = 1;
+	private $battle = 1;
 	private $active_combatant;
 
 	private $rounds_data;
@@ -43,11 +44,23 @@ class Controller
 		}
 	}
 
-	public function start()
+	private function startBattle()
 	{
+		$this->battleReset();
 		$this->execRound();
-		echo $this->twig->render('base.html.twig', ['rounds' => $this->rounds_data]);
+		// $this->rounds_data['battle'] = $this->battle;
 		$this->stats();
+	}
+
+	public function startTest($repeat)
+	{
+		for ($round = 1; $battle < $repeat; $battle++) {
+			$this->startBattle();
+			$this->test_data[] = $this->rounds_data;
+			$this->battle++;
+		}
+		// echo $this->twig->render('base.html.twig', ['rounds' => $this->rounds_data]);
+		echo $this->twig->render('base.html.twig', ['test' => $this->test_data]);
 	}
 
 	private function execRound()
@@ -191,5 +204,13 @@ class Controller
 
 	private function stats()
 	{
+	}
+
+	private function battleReset()
+	{
+		$this->rounds_data = [];
+		$this->round = 1;
+		$this->combatant1->reset();
+		$this->combatant2->reset();
 	}
 }

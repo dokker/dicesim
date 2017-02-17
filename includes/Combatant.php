@@ -12,8 +12,7 @@ class Combatant
 	public function __construct(array $attributes)
 	{
 		$this->attributes = $attributes;
-		$this->temp_hp = $attributes['hp'];
-		$this->temp_def = $attributes['def'];
+		$this->reset();
 	}
 
 	/**
@@ -124,5 +123,11 @@ class Combatant
 	public function getName()
 	{
 		return $this->attributes['name'];
+	}
+
+	public function reset()
+	{
+		$this->temp_hp = $this->attributes['hp'];
+		$this->temp_def = $this->attributes['def'];
 	}
 }
