@@ -36,6 +36,11 @@ class Controller
 
 	public function getLowest(array $rolls)
 	{
+		if ($rolls[0] > $rolls[1]) {
+			return $rolls[1];
+		} else {
+			return $rolls[0];
+		}
 	}
 
 	public function start()
@@ -97,6 +102,9 @@ class Controller
 				$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
 				$hpdamage = $enemy->injure($hpdamage);
 				$defdamage = $enemy->injureDef($hpdamage);
+				/* Doubles def loss at HP injury
+				$defdamage = $enemy->injureDef($hpdamage * 2);
+				*/
 			} else {
 				$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
 				$defdamage = $enemy->injureDef($defdamage);
@@ -105,6 +113,12 @@ class Controller
 				}
 			}
 			$success = true;
+		/* CX2 mod
+		} elseif($percentile_att > $enemy->getdef()) {
+			$damage = $this->getlowest($this->attack);
+			$defdamage = $enemy->injuredef($damage);
+			$success = true;
+		*/
 		}
 
 		// Structure attack data
