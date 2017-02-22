@@ -12,6 +12,7 @@ class Controller
 	private $round = 1;
 	private $battle = 1;
 	private $active_combatant;
+	private $battle_wins = [];
 
 	private $battle_data;
 	private $actions_data;
@@ -219,12 +220,31 @@ class Controller
 			$round_sum += $battle['rounds_num'];
 		}
 		return $round_sum / count($battles);
+
+
+	}
+
+	private function getMostWinner($battles)
+	{
+		foreach ($battles as $battle) {
+			$this->battle_wins[] = $battle['winner'];
+		}
+		$winners = [];
+		foreach ($this->battle_wins as $winner) {
+			if (!array_key_exists($winner, $winners)) {
+				$winners[$winner] = 1;
+			} else {
+				$winners[$winner] = $winners[$winner] + 1;
+			}
+		}
+		return $winners;
 	}
 
 	private function testStats()
 	{
 		$this->test_data['stats'] = [
 			'average_rounds' => $this->getAverageRounds($this->test_data['battles']),
+			'most_winner' => $this->getMostWinner($this->test_data['battles']),
 		];
 	}
 

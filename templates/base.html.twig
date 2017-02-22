@@ -12,6 +12,14 @@
 <body>
 
 <div class="container main-container">
+<div class="bs-callout bs-callout-info stats">
+	<h3>Test stats summary</h3>
+	<p>Average rounds: {{ test.stats.average_rounds }}</p>
+	<h4>Winners</h4>
+	{% for key, wins in test.stats.most_winner %}
+		<p>{{ key }}: {{ wins }}</p>
+	{% endfor %}
+</div>
 <div id="accordion" class="panel-group">
 	{% for battle in test.battles %}
 		<div class="panel panel-info">
@@ -46,10 +54,6 @@
 		</div><!-- .panel -->
 	{% endfor %}
 </div><!-- .panel-group -->
-<div class="bs-callout bs-callout-info stats">
-	<h3>Test stats summary</h3>
-	<p>Average rounds: {{ test.stats.average_rounds }}</p>
-</div>
 </div><!-- .container -->
 
 </body>
