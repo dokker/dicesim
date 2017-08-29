@@ -18,12 +18,12 @@ $combatant1 = [
 $combatant2 = [
 	'name' => 'Master',
 	'init' => 22,
-	'att' => 55,
-	'def' => 50,
+	'att' => 90,
+	'def' => 70,
 	'hp' => 13,
-	'armor' => 0,
+	'armor' => 4,
 	'x2' => 2,
 ];
 
-$controller = new \diceSim\Controller([$combatant1, $combatant2]);
+$controller = new \diceSim\Controller([$combatant1, $combatant2], true);
 $controller->startTest(2);

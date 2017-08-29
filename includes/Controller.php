@@ -18,7 +18,7 @@ class Controller
 	private $actions_data;
 	private $test_data;
 
-	public function __construct(array $combatants)
+	public function __construct(array $combatants, $cx2 = false)
 	{
 		$this->combatants[] = new \diceSim\Combatant($combatants[0]);
 		$this->combatants[] = new \diceSim\Combatant($combatants[1]);
@@ -132,12 +132,11 @@ class Controller
 				}
 			}
 			$success = true;
-		/* CX2 mod
-		} elseif($percentile_att > $enemy->getdef()) {
+		/* CX2 mod */
+		} elseif($cx2 && $percentile_att > $enemy->getdef()) {
 			$damage = $this->getlowest($this->attack);
 			$defdamage = $enemy->injuredef($damage);
 			$success = true;
-		*/
 		}
 
 		// Structure attack data
