@@ -65,7 +65,7 @@ class Controller
 		}
 		$this->testStats();
 		// echo $this->twig->render('base.html.twig', ['rounds' => $this->battle_data]);
-		echo $this->twig->render('base.html.twig', ['test' => $this->test_data]);
+		echo $this->twig->render('form.html.twig', ['test' => $this->test_data]);
 	}
 
 	private function execRound()
