@@ -5,25 +5,4 @@ if (is_file($vendorAutoload)) {
 	require_once($vendorAutoload);
 }
 
-$combatant1 = [
-	'name' => 'Novice',
-	'init' => 15,
-	'att' => 55,
-	'def' => 50,
-	'hp' => 13,
-	'armor' => 4,
-	'x2' => 2,
-];
-
-$combatant2 = [
-	'name' => 'Master',
-	'init' => 22,
-	'att' => 90,
-	'def' => 70,
-	'hp' => 13,
-	'armor' => 4,
-	'x2' => 2,
-];
-
-$controller = new \diceSim\Controller([$combatant1, $combatant2], true);
-$controller->startTest(2);
+$controller = new \diceSim\Controller(!empty($_POST["cx2"]));

@@ -18,15 +18,32 @@ class Controller
 	private $actions_data;
 	private $test_data;
 
-	public function __construct(array $combatants, $cx2 = false)
+	public function __construct($cx2 = false)
 	{
-		$this->combatants[] = new \diceSim\Combatant($combatants[0]);
-		$this->combatants[] = new \diceSim\Combatant($combatants[1]);
 		$this->dice = new \diceSim\Dice(['sides' => 10]);
 
 		$loader = new \Twig_Loader_Filesystem('templates');
 		$this->twig = new \Twig_Environment($loader, ['debug' => true]);
 		$this->twig->addExtension(new \Twig_Extension_Debug());
+
+		$this->handle_requests();
+	}
+
+	private function handle_requests()
+	{
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			$model = new \diceSim\Model();
+
+			$c1 = filter_input(INPUT_POST, c1, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+			$c2 = filter_input(INPUT_POST, c2, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+
+			$this->combatants[] = new \diceSim\Combatant($model->sanitize_combatant($c1));
+			$this->combatants[] = new \diceSim\Combatant($model->sanitize_combatant($c2));
+
+			$this->startTest(filter_input(INPUT_POST, 'battles', FILTER_VALIDATE_INT, 1));
+		} else {
+			echo $this->twig->render('form.html.twig', ['test' => false]);
+		}
 	}
 
 	public function getHighest(array $rolls)

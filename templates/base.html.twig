@@ -15,6 +15,7 @@
 
 {% block form %}{% endblock %}
 
+{% if test %}
 <div class="bs-callout bs-callout-info stats">
 	<h3>Test stats summary</h3>
 	<p>Average rounds: {{ test.stats.average_rounds }}</p>
@@ -57,6 +58,8 @@
 		</div><!-- .panel -->
 	{% endfor %}
 </div><!-- .panel-group -->
+{% endif %}
+
 </div><!-- .container -->
 
 </body>
