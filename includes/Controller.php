@@ -69,13 +69,14 @@ class Controller
 		$this->battleReset();
 		$this->execRound();
 		$this->battle_data['winner'] = $this->combatants[$this->active_combatant]->getName();
-		$this->battle_data['rounds_num'] = $this->round;
+		// negate by 1 because execRound has already incremented it
+		$this->battle_data['rounds_num'] = $this->round - 1;
 		$this->battleStats();
 	}
 
 	public function startTest($repeat)
 	{
-		for ($round = 1; $battle < $repeat; $battle++) {
+		for ($battle = 1; $battle < $repeat; $battle++) {
 			$this->startBattle();
 			$this->test_data['battles'][] = $this->battle_data;
 			$this->battle++;
