@@ -85,7 +85,7 @@ class Controller
 
 	public function startTest($repeat)
 	{
-		for ($battle = 1; $battle < $repeat; $battle++) {
+		for ($battle = 1; $battle <= $repeat; $battle++) {
 			$this->startBattle();
 			$this->test_data['battles'][] = $this->battle_data;
 			$this->battle++;
