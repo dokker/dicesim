@@ -29,10 +29,16 @@ class Model
 			if (empty($value)) {
 				switch($key) {
 					case 'att':
-						$combatant[$key] = 50;
+						$combatant[$key] = 10;
+						break;
+					case 'armor':
+						$combatant[$key] = 0;
+						break;
+					case 'def':
+						$combatant[$key] = 0;
 						break;
 					default:
-						$combatant[$key] = 5;
+						$combatant[$key] = 1;
 				}
 			}
 		}
