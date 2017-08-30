@@ -14,43 +14,49 @@
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c1-name">Name of C1</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-name" placeholder="Combatant1 name" name="c1[name]" value="Soldier 1"></input>
+						<input class="form-control" id="c1-name" placeholder="Combatant1 name" name="c1[name]" value="{{ fd.c1.name ? fd.c1.name : 'Master' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c1-init">Initiate of C1</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-init" placeholder="Initiate of C1" name="c1[init]"></input>
+						<input class="form-control" id="c1-init" placeholder="Initiate of C1" name="c1[init]"
+						value="{{ fd.c1.init ? fd.c1.init : '10' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c1-att">Attack of C1</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-att" placeholder="Attack of C1" name="c1[att]"></input>
+						<input class="form-control" id="c1-att" placeholder="Attack of C1" name="c1[att]"
+						value="{{ fd.c1.att ? fd.c1.att : '50' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c1-def">Defense of C1</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-def" placeholder="Defense of C1" name="c1[def]"></input>
+						<input class="form-control" id="c1-def" placeholder="Defense of C1" name="c1[def]"
+						value="{{ fd.c1.def ? fd.c1.def : '45' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c1-hp">HP of C1</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-hp" placeholder="HP of C1" name="c1[hp]"></input>
+						<input class="form-control" id="c1-hp" placeholder="HP of C1" name="c1[hp]"
+						value="{{ fd.c1.hp ? fd.c1.hp : '10' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c1-armor">Armor of C1</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-armor" placeholder="Armor of C1" name="c1[armor]"></input>
+						<input class="form-control" id="c1-armor" placeholder="Armor of C1" name="c1[armor]"
+						value="{{ fd.c1.armor ? fd.c1.armor : '3' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c1-xatt">#Attacks of C1</label>
+					<label class="control-label col-xs-5" for="c1-xatt"># Attacks of C1</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-x2" placeholder="#Attacks of C1" name="c1[x2]"></input>
+						<input class="form-control" id="c1-x2" placeholder="# Attacks of C1" name="c1[x2]"
+						value="{{ fd.c1.x2 ? fd.c1.x2 : '2' }}"></input>
 					</div>
 				</div>
 			</div>
@@ -60,58 +66,65 @@
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c2-name">Name of C2</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-name" placeholder="Combatant1 name" name="c2[name]" value="Soldier 2"></input>
+						<input class="form-control" id="c2-name" placeholder="Combatant1 name" name="c2[name]" value="{{ fd.c2.name ? fd.c2.name : 'Novice' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c2-init">Initiate of C2</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-init" placeholder="Initiate of C2" name="c2[init]"></input>
+						<input class="form-control" id="c2-init" placeholder="Initiate of C2" name="c2[init]"
+						value="{{ fd.c2.init ? fd.c2.init : '10' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c2-att">Attack of C2</label>
+					<label class="control-label col-xs-5" for="c2-att"
+					value="">Attack of C2</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-att" placeholder="Attack of C2" name="c2[att]"></input>
+						<input class="form-control" id="c2-att" placeholder="Attack of C2" name="c2[att]"
+						value="{{ fd.c2.att ? fd.c2.att : '40' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c2-def">Defense of C2</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-def" placeholder="Defense of C2" name="c2[def]"></input>
+						<input class="form-control" id="c2-def" placeholder="Defense of C2" name="c2[def]"
+						value="{{ fd.c2.def ? fd.c2.def : '35' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c2-hp">HP of C2</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-hp" placeholder="HP of C2" name="c2[hp]"></input>
+						<input class="form-control" id="c2-hp" placeholder="HP of C2" name="c2[hp]"
+						value="{{ fd.c2.hp ? fd.c2.hp : '10' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c2-armor">Armor of C2</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-armor" placeholder="Armor of C2" name="c2[armor]"></input>
+						<input class="form-control" id="c2-armor" placeholder="Armor of C2" name="c2[armor]"
+						value="{{ fd.c2.armor ? fd.c2.armor : '3' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c2-xatt">#Attacks of C2</label>
+					<label class="control-label col-xs-5" for="c2-xatt"># Attacks of C2</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-x2" placeholder="#Attacks of C2" name="c2[x2]"></input>
+						<input class="form-control" id="c2-x2" placeholder="# Attacks of C2" name="c2[x2]"
+						value="{{ fd.c2.x2 ? fd.c2.x2 : '2' }}"></input>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-4">
 				<h3>Simulation settings</h3>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="battles">Number of battles</label>
-					<div class="col-xs-7">
-						<input class="form-control" id="battles" placeholder="Number of battles" name="battles" value="10"></input>
+					<label class="control-label col-xs-3" for="battles"># Battles</label>
+					<div class="col-xs-8">
+						<input class="form-control" id="battles" placeholder="# Battles" name="battles" value="{{ fd.battles ? fd.battles : '10' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-12">
 						<label>
-							<input type="checkbox" name="cx2"> CX2
+							<input type="checkbox" name="cx2" {{ fd.cx2 ? 'checked' : '' }}> CX2
 						</label>
 					</div>
 				</div>

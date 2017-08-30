@@ -5,4 +5,4 @@ if (is_file($vendorAutoload)) {
 	require_once($vendorAutoload);
 }
 
-$controller = new \diceSim\Controller(!empty($_POST["cx2"]));
+$controller = new \diceSim\Controller();

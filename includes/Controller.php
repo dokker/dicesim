@@ -18,7 +18,7 @@ class Controller
 	private $actions_data;
 	private $test_data;
 
-	public function __construct($cx2 = false)
+	public function __construct()
 	{
 		$this->dice = new \diceSim\Dice(['sides' => 10]);
 
@@ -36,11 +36,20 @@ class Controller
 
 			$c1 = filter_input(INPUT_POST, c1, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
 			$c2 = filter_input(INPUT_POST, c2, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+			$c1 = $model->sanitize_combatant($c1);
+			$c2 = $model->sanitize_combatant($c2);
 
-			$this->combatants[] = new \diceSim\Combatant($model->sanitize_combatant($c1));
-			$this->combatants[] = new \diceSim\Combatant($model->sanitize_combatant($c2));
+			$this->combatants[] = new \diceSim\Combatant($c1);
+			$this->combatants[] = new \diceSim\Combatant($c2);
 
-			$this->startTest(filter_input(INPUT_POST, 'battles', FILTER_VALIDATE_INT, 1));
+			$battles = filter_input(INPUT_POST, 'battles', FILTER_VALIDATE_INT, 1);
+
+			$this->formdata['c1'] = $c1;
+			$this->formdata['c2'] = $c2;
+			$this->formdata['battles'] = $battles;
+			$this->formdata['cx2'] = !empty($_POST['cx2']);
+
+			$this->startTest($battles);
 		} else {
 			echo $this->twig->render('form.html.twig', ['test' => false]);
 		}
@@ -83,7 +92,7 @@ class Controller
 		}
 		$this->testStats();
 		// echo $this->twig->render('base.html.twig', ['rounds' => $this->battle_data]);
-		echo $this->twig->render('form.html.twig', ['test' => $this->test_data]);
+		echo $this->twig->render('form.html.twig', ['test' => $this->test_data, 'fd' => $this->formdata]);
 	}
 
 	private function execRound()
@@ -151,7 +160,7 @@ class Controller
 			}
 			$success = true;
 		/* CX2 mod */
-		} elseif($cx2 && $percentile_att > $enemy->getdef()) {
+		} elseif($this->formdata['cx2'] && $percentile_att > $enemy->getdef()) {
 			$damage = $this->getlowest($this->attack);
 			$defdamage = $enemy->injuredef($damage);
 			$success = true;
