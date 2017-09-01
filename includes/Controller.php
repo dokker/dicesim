@@ -241,6 +241,23 @@ class Controller
 				}
 			break;
 			case 4:
+				// roll attack
+				$this->attack = [
+					$this->dice->roll(),
+					$this->dice->roll()
+				];
+
+				// Handle attack
+				$success = false;
+				$percentile_att = $this->normalizeD100($this->attack);
+				if ($attacker->attack($percentile_att)) {
+					$damage = $this->getHighest($this->attack);
+
+						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor() - floor($enemy->getDef() / 10)) : 0;
+						$hpdamage = $enemy->injure($hpdamage);
+						$defdamage = 0;
+					$success = true;
+				}
 			break;
 			case 5:
 			break;
