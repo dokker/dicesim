@@ -22,7 +22,7 @@ class Combatant
 	 * @param  int    $amount Amount of injury
 	 * @return int         Actual state of HP
 	 */
-	public function injure(int $amount)
+	public function injure(int $amount, $loose_turn = false)
 	{
 		$hp = $this->temp_hp;
 		$hp = $hp - $amount;
@@ -31,6 +31,12 @@ class Combatant
 		}
 		$difference = $this->temp_hp - $hp;
 		$this->temp_hp = $hp;
+
+		// If loose turn is active
+		if ($loose_turn && ($amount > 0) && $this->hasAction()) {
+			$this->actions--;
+		}
+
 		return $difference;
 	}
 

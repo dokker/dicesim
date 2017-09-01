@@ -50,6 +50,8 @@ class Controller
 			$this->formdata['battles'] = $battles;
 			$this->formdata['system'] = filter_input(INPUT_POST, 'system', FILTER_VALIDATE_INT, 1);
 
+			$this->formdata['mod_loose_turn'] = !empty($_POST['mod_loose_turn']);
+
 			$this->startTest($battles);
 		} else {
 			echo $this->twig->render('form.html.twig', ['test' => false]);
@@ -161,7 +163,7 @@ class Controller
 
 					if ($percentile_att > $enemy->getDef()) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage);
+						$hpdamage = $enemy->injure($hpdamage, $this->formdata['system']);
 						$defdamage = $enemy->injureDef($hpdamage);
 						/* Doubles def loss at HP injury
 						$defdamage = $enemy->injureDef($hpdamage * 2);
@@ -191,7 +193,7 @@ class Controller
 
 					if ($percentile_att > $enemy->getDef()) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage);
+						$hpdamage = $enemy->injure($hpdamage, $this->formdata['system']);
 						$defdamage = $enemy->injureDef($hpdamage);
 						/* Doubles def loss at HP injury
 						$defdamage = $enemy->injureDef($hpdamage * 2);
@@ -226,7 +228,7 @@ class Controller
 
 					if ($percentile_att > $enemy->getDef() || $attacker->getMasterHit($percentile_att)) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage);
+						$hpdamage = $enemy->injure($hpdamage, $this->formdata['system']);
 						$defdamage = $enemy->injureDef($hpdamage);
 						/* Doubles def loss at HP injury
 						$defdamage = $enemy->injureDef($hpdamage * 2);
@@ -255,7 +257,7 @@ class Controller
 					$damage = $this->getHighest($this->attack);
 
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor() - floor($enemy->getDef() / 10)) : 0;
-						$hpdamage = $enemy->injure($hpdamage);
+						$hpdamage = $enemy->injure($hpdamage, $this->formdata['system']);
 						$defdamage = 0;
 					$success = true;
 				}
@@ -275,7 +277,7 @@ class Controller
 
 					if ($percentile_att > $enemy->getPassiveDef()) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage);
+						$hpdamage = $enemy->injure($hpdamage, $this->formdata['system']);
 						$defdamage = 0;
 					}
 					$success = true;
@@ -302,7 +304,7 @@ class Controller
 
 					if (!$enemy->defense($percentile_def)) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage);
+						$hpdamage = $enemy->injure($hpdamage, $this->formdata['system']);
 						$defdamage = $enemy->injureDef($hpdamage);
 						$success = true;
 					}

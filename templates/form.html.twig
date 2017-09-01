@@ -121,6 +121,13 @@
 						<input class="form-control" id="battles" placeholder="# Battles" name="battles" value="{{ fd.battles ? fd.battles : '100' }}"></input>
 					</div>
 				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<label>
+							<input type="checkbox" name="mod_loose_turn" {{ fd.mod_loose_turn ? 'checked' : '' }}> Támadást veszít aki sebződik
+						</label>
+					</div>
+				</div>
 				<div class="radio">
 						<label data-toggle="tooltip" data-placement="left" title="Alap Codex harci szabályok.">
 							<input type="radio" name="system" {{ fd.system is empty ? 'checked' : '' }}{{ fd.system == 1 ? 'checked' : '' }} value="1"> Codex
