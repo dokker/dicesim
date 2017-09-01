@@ -47,7 +47,7 @@ class Controller
 			$this->formdata['c1'] = $c1;
 			$this->formdata['c2'] = $c2;
 			$this->formdata['battles'] = $battles;
-			$this->formdata['cx2'] = !empty($_POST['cx2']);
+			$this->formdata['system'] = filter_input(INPUT_POST, 'system', FILTER_VALIDATE_INT, 1);
 
 			$this->startTest($battles);
 		} else {
@@ -132,39 +132,94 @@ class Controller
 				break;
 		}
 
-		// roll attack
-		$this->attack = [
-			$this->dice->roll(),
-			$this->dice->roll()
-		];
+		$data = $this->handleAttack($this->formdata['system'], $attacker, $enemy);
 
-		// Handle attack
-		$success = false;
-		$percentile_att = $this->normalizeD100($this->attack);
-		if ($attacker->attack($percentile_att)) {
-			$damage = $this->getHighest($this->attack);
+		$this->actions_data[] = $data;
 
-			if ($percentile_att > $enemy->getDef()) {
-				$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-				$hpdamage = $enemy->injure($hpdamage);
-				$defdamage = $enemy->injureDef($hpdamage);
-				/* Doubles def loss at HP injury
-				$defdamage = $enemy->injureDef($hpdamage * 2);
-				*/
-			} else {
-				$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-				$defdamage = $enemy->injureDef($defdamage);
-				if ($defdamage < 0) {
-					$hpdamage = $enemy->injure(abs($defdamage));
-				}
-			}
-			$success = true;
-		/* CX2 mod */
-		} elseif($this->formdata['cx2'] && $percentile_att > $enemy->getdef()) {
-			$damage = $this->getlowest($this->attack);
-			$defdamage = $enemy->injuredef($damage);
-			$success = true;
+		if (($this->combatants[0]->hasAction() || $this->combatants[1]->hasAction()) && !$enemy->died()) {
+			$this->changeActive();
+			$this->activateCombatant();
 		}
+	}
+
+	private function handleAttack($system, $attacker, $enemy)
+	{
+		switch ($system) {
+			case '1':
+				// roll attack
+				$this->attack = [
+					$this->dice->roll(),
+					$this->dice->roll()
+				];
+
+				// Handle attack
+				$success = false;
+				$percentile_att = $this->normalizeD100($this->attack);
+				if ($attacker->attack($percentile_att)) {
+					$damage = $this->getHighest($this->attack);
+
+					if ($percentile_att > $enemy->getDef()) {
+						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+						$hpdamage = $enemy->injure($hpdamage);
+						$defdamage = $enemy->injureDef($hpdamage);
+						/* Doubles def loss at HP injury
+						$defdamage = $enemy->injureDef($hpdamage * 2);
+						*/
+					} else {
+						$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+						$defdamage = $enemy->injureDef($defdamage);
+						if ($defdamage < 0) {
+							$hpdamage = $enemy->injure(abs($defdamage));
+						}
+					}
+					$success = true;
+				}
+			break;
+			case '2':
+				// roll attack
+				$this->attack = [
+					$this->dice->roll(),
+					$this->dice->roll()
+				];
+
+				// Handle attack
+				$success = false;
+				$percentile_att = $this->normalizeD100($this->attack);
+				if ($attacker->attack($percentile_att)) {
+					$damage = $this->getHighest($this->attack);
+
+					if ($percentile_att > $enemy->getDef()) {
+						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+						$hpdamage = $enemy->injure($hpdamage);
+						$defdamage = $enemy->injureDef($hpdamage);
+						/* Doubles def loss at HP injury
+						$defdamage = $enemy->injureDef($hpdamage * 2);
+						*/
+					} else {
+						$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+						$defdamage = $enemy->injureDef($defdamage);
+						if ($defdamage < 0) {
+							$hpdamage = $enemy->injure(abs($defdamage));
+						}
+					}
+					$success = true;
+				/* CX2 mod */
+				} elseif($percentile_att > $enemy->getdef()) {
+					$damage = $this->getlowest($this->attack);
+					$defdamage = $enemy->injuredef($damage);
+					$success = true;
+				}
+			break;
+			case '3':
+			break;
+			case '4':
+			break;
+			case '5':
+			break;
+			case '6':
+			break;
+		}
+
 
 		// Structure attack data
 		$data = [
@@ -180,12 +235,7 @@ class Controller
 			],
 		];
 
-		$this->actions_data[] = $data;
-
-		if (($this->combatants[0]->hasAction() || $this->combatants[1]->hasAction()) && !$enemy->died()) {
-			$this->changeActive();
-			$this->activateCombatant();
-		}
+		return $data;
 	}
 
 	private function changeActive()

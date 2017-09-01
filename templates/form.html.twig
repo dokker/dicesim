@@ -49,7 +49,7 @@
 					<label class="control-label col-xs-5" for="c1-armor">Armor of C1</label>
 					<div class="col-xs-7">
 						<input class="form-control" id="c1-armor" placeholder="Armor of C1" name="c1[armor]"
-						value="{{ fd.c1.armor ? fd.c1.armor : '3' }}"></input>
+						value="{{ fd.c1.armor ? fd.c1.armor : '0' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
@@ -102,14 +102,14 @@
 					<label class="control-label col-xs-5" for="c2-armor">Armor of C2</label>
 					<div class="col-xs-7">
 						<input class="form-control" id="c2-armor" placeholder="Armor of C2" name="c2[armor]"
-						value="{{ fd.c2.armor ? fd.c2.armor : '3' }}"></input>
+						value="{{ fd.c2.armor ? fd.c2.armor : '0' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c2-xatt"># Attacks of C2</label>
 					<div class="col-xs-7">
 						<input class="form-control" id="c2-x2" placeholder="# Attacks of C2" name="c2[x2]"
-						value="{{ fd.c2.x2 ? fd.c2.x2 : '2' }}"></input>
+						value="{{ fd.c2.x2 ? fd.c2.x2 : '1' }}"></input>
 					</div>
 				</div>
 			</div>
@@ -118,17 +118,40 @@
 				<div class="form-group">
 					<label class="control-label col-xs-3" for="battles"># Battles</label>
 					<div class="col-xs-8">
-						<input class="form-control" id="battles" placeholder="# Battles" name="battles" value="{{ fd.battles ? fd.battles : '10' }}"></input>
+						<input class="form-control" id="battles" placeholder="# Battles" name="battles" value="{{ fd.battles ? fd.battles : '100' }}"></input>
 					</div>
 				</div>
-				<div class="form-group">
-					<div class="col-sm-12">
-						<label>
-							<input type="checkbox" name="cx2" {{ fd.cx2 ? 'checked' : '' }}> CX2
+				<div class="radio">
+						<label data-toggle="tooltip" data-placement="left" title="Alap Codex harci szabályok.">
+							<input type="radio" name="system" {{ fd.system is empty ? 'checked' : '' }}{{ fd.system == 1 ? 'checked' : '' }} value="1"> Codex
 						</label>
-					</div>
 				</div>
-				<div class="form-group">
+				<div class="radio">
+						<label data-toggle="tooltip" data-placement="left" title="Vé csökkenés kisebb kockával ha a Té és Vé fölé dob támadáskor.">
+							<input type="radio" name="system" {{ fd.system == 2 ? 'checked' : '' }} value="2"> CX2
+						</label>
+				</div>
+				<div class="radio">
+						<label data-toggle="tooltip" data-placement="left" title="Té 10-es részéből eredeztetett % alá dobás esetén biztosan sebez.">
+							<input type="radio" name="system" {{ fd.system == 3 ? 'checked' : '' }} value="3" disabled="disabled"> Mestervágás
+						</label>
+				</div>
+				<div class="radio">
+						<label data-toggle="tooltip" data-placement="left" title="Vé 10-es része passzívan csökkenti a sebzést. (nincs Vé csökkenés)">
+							<input type="radio" name="system" {{ fd.system == 4 ? 'checked' : '' }} value="4" disabled="disabled"> Passzív Vé Sebzésből
+						</label>
+				</div>
+				<div class="radio">
+						<label data-toggle="tooltip" data-placement="left" title="Vé adott százaléka passzív értékként. (nincs Vé csökkenés)">
+							<input type="radio" name="system" {{ fd.system == 5 ? 'checked' : '' }} value="5" disabled="disabled"> Passzív Védekezés
+						</label>
+				</div>
+				<div class="radio">
+						<label data-toggle="tooltip" data-placement="left" title="Dobni kell a védekezésre. (nincs Vé csökkenés)">
+							<input type="radio" name="system" {{ fd.system == 6 ? 'checked' : '' }} value="6" disabled="disabled"> Aktív Védekezés
+						</label>
+				</div>
+				<div class="form-group submitbox">
 					<div class="col-xs-12">
 						<button type="submit" class="btn btn-lg btn-primary btn-block">Start simulation</button>
 					</div>
