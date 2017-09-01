@@ -145,7 +145,7 @@ class Controller
 	private function handleAttack($system, $attacker, $enemy)
 	{
 		switch ($system) {
-			case '1':
+			case 1:
 				// roll attack
 				$this->attack = [
 					$this->dice->roll(),
@@ -175,7 +175,7 @@ class Controller
 					$success = true;
 				}
 			break;
-			case '2':
+			case 2:
 				// roll attack
 				$this->attack = [
 					$this->dice->roll(),
@@ -210,11 +210,39 @@ class Controller
 					$success = true;
 				}
 			break;
-			case '3':
+			case 3:
+				// roll attack
+				$this->attack = [
+					$this->dice->roll(),
+					$this->dice->roll()
+				];
+
+				// Handle attack
+				$success = false;
+				$percentile_att = $this->normalizeD100($this->attack);
+				if ($attacker->attack($percentile_att)) {
+					$damage = $this->getHighest($this->attack);
+
+					if ($percentile_att > $enemy->getDef() || $attacker->getMasterHit($percentile_att)) {
+						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+						$hpdamage = $enemy->injure($hpdamage);
+						$defdamage = $enemy->injureDef($hpdamage);
+						/* Doubles def loss at HP injury
+						$defdamage = $enemy->injureDef($hpdamage * 2);
+						*/
+					} else {
+						$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+						$defdamage = $enemy->injureDef($defdamage);
+						if ($defdamage < 0) {
+							$hpdamage = $enemy->injure(abs($defdamage));
+						}
+					}
+					$success = true;
+				}
 			break;
-			case '4':
+			case 4:
 			break;
-			case '5':
+			case 5:
 			break;
 			case '6':
 			break;

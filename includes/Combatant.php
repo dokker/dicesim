@@ -94,6 +94,21 @@ class Combatant
 		return false;
 	}
 
+	/**
+	 * Checks if attack lower than master hit value
+	 * @param  [type] $value [description]
+	 * @return [type]        [description]
+	 */
+	public function getMasterHit($value)
+	{
+		$tens = floor($this->attributes['att'] / 10);
+		if ($value <= $tens) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public function hasAction()
 	{
 		if ($this->actions > 0) {
