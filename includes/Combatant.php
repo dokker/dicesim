@@ -6,6 +6,7 @@ class Combatant
 	private $attributes;
 	private $temp_hp;
 	private $temp_def;
+	private $passive_def;
 	private $actions;
 	private $attacks;
 
@@ -13,6 +14,7 @@ class Combatant
 	{
 		$this->attributes = $attributes;
 		$this->reset();
+		$this->passive_def = round($this->temp_def * 0.40, 0, PHP_ROUND_HALF_UP);
 	}
 
 	/**
@@ -64,6 +66,15 @@ class Combatant
 	public function getDef()
 	{
 		return $this->temp_def;
+	}
+
+	/**
+	 * Get passive defense value
+	 * @return int Defense value
+	 */
+	public function getPassiveDef()
+	{
+		return $this->passive_def;
 	}
 
 	public function getArmor()
