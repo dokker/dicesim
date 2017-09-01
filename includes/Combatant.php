@@ -90,7 +90,7 @@ class Combatant
 
 	public function getHP()
 	{
-		return $temp_hp;
+		return $this->temp_hp;
 	}
 
 	/**

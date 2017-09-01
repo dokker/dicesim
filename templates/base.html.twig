@@ -56,6 +56,10 @@
 								</div>
 							</div>
 						{% endfor %}
+						<div class="list-group-item round-stats">
+							<p>{{ round.stats.c1_name }} has <span class="label label-default">{{ round.stats.c1_hp }} HP</span> and <span class="label label-default">{{ round.stats.c1_def }} Def</span></p>
+							<p>{{ round.stats.c2_name }} has <span class="label label-default">{{ round.stats.c2_hp }} HP</span> and <span class="label label-default">{{ round.stats.c2_def }} Def</span></p>
+						</div>
 					</div>
 				{% endfor %}
 				</div><!-- .card-block -->

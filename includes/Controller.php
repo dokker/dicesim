@@ -106,9 +106,19 @@ class Controller
 		$this->active_combatant = $this->getInit();
 		$this->activateCombatant();
 
+		$round_stats = [
+			'c1_def' => $this->combatants[0]->getDef(),
+			'c1_hp'	=>	$this->combatants[0]->getHP(),
+			'c1_name' => $this->combatants[0]->getName(),
+			'c2_def' => $this->combatants[1]->getDef(),
+			'c2_hp'	=>	$this->combatants[1]->getHP(),
+			'c2_name' => $this->combatants[1]->getName(),
+		];
+
 		$data = [
 			'num' => sprintf("%02d", $this->round),
 			'actions' => $this->actions_data,
+			'stats'	=>	$round_stats,
 		];
 
 		$this->actions_data = [];
