@@ -9,6 +9,7 @@ class Controller
 	private $combatants;
 	private $init;
 	private $attack;
+	private $def;
 	private $round = 1;
 	private $battle = 1;
 	private $active_combatant;
@@ -281,6 +282,31 @@ class Controller
 				}
 			break;
 			case 6:
+				// roll attack
+				$this->attack = [
+					$this->dice->roll(),
+					$this->dice->roll()
+				];
+				// roll attack
+				$this->def = [
+					$this->dice->roll(),
+					$this->dice->roll()
+				];
+
+				// Handle attack
+				$success = false;
+				$percentile_att = $this->normalizeD100($this->attack);
+				$percentile_def = $this->normalizeD100($this->def);
+				if ($attacker->attack($percentile_att)) {
+					$damage = $this->getHighest($this->attack);
+
+					if (!$enemy->defense($percentile_def)) {
+						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+						$hpdamage = $enemy->injure($hpdamage);
+						$defdamage = $enemy->injureDef($hpdamage);
+						$success = true;
+					}
+				}
 			break;
 		}
 

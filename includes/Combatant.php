@@ -106,6 +106,19 @@ class Combatant
 	}
 
 	/**
+	 * Execute a defense
+	 * @param  int $value Random defense value
+	 * @return bool        Defense success
+	 */
+	public function defense($value)
+	{
+		if ($value <= $this->attributes['def']) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Checks if attack lower than master hit value
 	 * @param  [type] $value [description]
 	 * @return [type]        [description]
