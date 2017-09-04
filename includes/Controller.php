@@ -51,6 +51,7 @@ class Controller
 			$this->formdata['system'] = filter_input(INPUT_POST, 'system', FILTER_VALIDATE_INT, 1);
 
 			$this->formdata['mod_loose_turn'] = !empty($_POST['mod_loose_turn']);
+			$this->formdata['mod_master_hit'] = !empty($_POST['mod_master_hit']);
 
 			$this->startTest($battles);
 		} else {
@@ -157,8 +158,11 @@ class Controller
 
 	private function handleAttack($system, $attacker, $enemy)
 	{
+		$looseturn = $this->formdata['mod_loose_turn'];
+		$masterhit = $this->formdata['mod_master_hit'];
+
 		switch ($system) {
-			case 1:
+			case 1: // CX
 				// roll attack
 				$this->attack = [
 					$this->dice->roll(),
@@ -171,9 +175,9 @@ class Controller
 				if ($attacker->attack($percentile_att)) {
 					$damage = $this->getHighest($this->attack);
 
-					if ($percentile_att > $enemy->getDef()) {
+					if ($percentile_att > $enemy->getDef() || $attacker->getMasterHit($percentile_att, $masterhit)) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage, $this->formdata['mod_loose_turn']);
+						$hpdamage = $enemy->injure($hpdamage, $looseturn);
 						$defdamage = $enemy->injureDef($hpdamage);
 						/* Doubles def loss at HP injury
 						$defdamage = $enemy->injureDef($hpdamage * 2);
@@ -182,13 +186,13 @@ class Controller
 						$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
 						$defdamage = $enemy->injureDef($defdamage);
 						if ($defdamage < 0) {
-							$hpdamage = $enemy->injure(abs($defdamage), $this->formdata['mod_loose_turn']);
+							$hpdamage = $enemy->injure(abs($defdamage), $looseturn);
 						}
 					}
 					$success = true;
 				}
 			break;
-			case 2:
+			case 2: //CX2
 				// roll attack
 				$this->attack = [
 					$this->dice->roll(),
@@ -201,9 +205,9 @@ class Controller
 				if ($attacker->attack($percentile_att)) {
 					$damage = $this->getHighest($this->attack);
 
-					if ($percentile_att > $enemy->getDef()) {
+					if ($percentile_att > $enemy->getDef() || $attacker->getMasterHit($percentile_att, $masterhit)) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage, $this->formdata['mod_loose_turn']);
+						$hpdamage = $enemy->injure($hpdamage, $looseturn);
 						$defdamage = $enemy->injureDef($hpdamage);
 						/* Doubles def loss at HP injury
 						$defdamage = $enemy->injureDef($hpdamage * 2);
@@ -212,7 +216,7 @@ class Controller
 						$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
 						$defdamage = $enemy->injureDef($defdamage);
 						if ($defdamage < 0) {
-							$hpdamage = $enemy->injure(abs($defdamage), $this->formdata['mod_loose_turn']);
+							$hpdamage = $enemy->injure(abs($defdamage), $looseturn);
 						}
 					}
 					$success = true;
@@ -223,37 +227,7 @@ class Controller
 					$success = true;
 				}
 			break;
-			case 3:
-				// roll attack
-				$this->attack = [
-					$this->dice->roll(),
-					$this->dice->roll()
-				];
-
-				// Handle attack
-				$success = false;
-				$percentile_att = $this->normalizeD100($this->attack);
-				if ($attacker->attack($percentile_att)) {
-					$damage = $this->getHighest($this->attack);
-
-					if ($percentile_att > $enemy->getDef() || $attacker->getMasterHit($percentile_att)) {
-						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage, $this->formdata['mod_loose_turn']);
-						$defdamage = $enemy->injureDef($hpdamage);
-						/* Doubles def loss at HP injury
-						$defdamage = $enemy->injureDef($hpdamage * 2);
-						*/
-					} else {
-						$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$defdamage = $enemy->injureDef($defdamage);
-						if ($defdamage < 0) {
-							$hpdamage = $enemy->injure(abs($defdamage), $this->formdata['mod_loose_turn']);
-						}
-					}
-					$success = true;
-				}
-			break;
-			case 4:
+			case 4: // Passive Def from Damage
 				// roll attack
 				$this->attack = [
 					$this->dice->roll(),
@@ -267,12 +241,12 @@ class Controller
 					$damage = $this->getHighest($this->attack);
 
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor() - floor($enemy->getDef() / 10)) : 0;
-						$hpdamage = $enemy->injure($hpdamage, $this->formdata['mod_loose_turn']);
+						$hpdamage = $enemy->injure($hpdamage, $looseturn);
 						$defdamage = 0;
 					$success = true;
 				}
 			break;
-			case 5:
+			case 5: // Passive Def
 				// roll attack
 				$this->attack = [
 					$this->dice->roll(),
@@ -285,15 +259,15 @@ class Controller
 				if ($attacker->attack($percentile_att)) {
 					$damage = $this->getHighest($this->attack);
 
-					if ($percentile_att > $enemy->getPassiveDef()) {
+					if ($percentile_att > $enemy->getPassiveDef() || $attacker->getMasterHit($percentile_att, $masterhit)) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage, $this->formdata['mod_loose_turn']);
+						$hpdamage = $enemy->injure($hpdamage, $looseturn);
 						$defdamage = 0;
 					}
 					$success = true;
 				}
 			break;
-			case 6:
+			case 6: // Active Def
 				// roll attack
 				$this->attack = [
 					$this->dice->roll(),
@@ -312,9 +286,9 @@ class Controller
 				if ($attacker->attack($percentile_att)) {
 					$damage = $this->getHighest($this->attack);
 
-					if (!$enemy->defense($percentile_def)) {
+					if (!$enemy->defense($percentile_def) || $attacker->getMasterHit($percentile_att, $masterhit)) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
-						$hpdamage = $enemy->injure($hpdamage, $this->formdata['mod_loose_turn']);
+						$hpdamage = $enemy->injure($hpdamage, $looseturn);
 						$defdamage = $enemy->injureDef($hpdamage);
 						$success = true;
 					}

@@ -121,11 +121,20 @@
 						<input class="form-control" id="battles" placeholder="# Battles" name="battles" value="{{ fd.battles ? fd.battles : '100' }}"></input>
 					</div>
 				</div>
-				<div class="form-group">
-					<div class="col-sm-12">
-						<label>
-							<input type="checkbox" name="mod_loose_turn" {{ fd.mod_loose_turn ? 'checked' : '' }}> Támadást veszít aki sebződik
-						</label>
+				<div class="mods">
+					<div class="form-group">
+						<div class="col-sm-12">
+							<label data-toggle="tooltip" data-placement="left" title="ÉP vesztés esetén veszít egy támadást is.">
+								<input type="checkbox" name="mod_loose_turn" {{ fd.mod_loose_turn ? 'checked' : '' }}> Támadást veszít aki sebződik
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<label data-toggle="tooltip" data-placement="left" title="Té 10-es részéből eredeztetett % alá dobás esetén biztosan sebez.">
+								<input type="checkbox" name="mod_master_hit" {{ fd.mod_master_hit ? 'checked' : '' }}> Mestervágás
+							</label>
+						</div>
 					</div>
 				</div>
 				<div class="radio">
@@ -139,12 +148,7 @@
 						</label>
 				</div>
 				<div class="radio">
-						<label data-toggle="tooltip" data-placement="left" title="Té 10-es részéből eredeztetett % alá dobás esetén biztosan sebez.">
-							<input type="radio" name="system" {{ fd.system == 3 ? 'checked' : '' }} value="3"> Mestervágás
-						</label>
-				</div>
-				<div class="radio">
-						<label data-toggle="tooltip" data-placement="left" title="Vé 10-es része passzívan csökkenti a sebzést. (nincs Vé csökkenés)">
+						<label data-toggle="tooltip" data-placement="left" title="Vé 10-es része passzívan csökkenti a sebzést. (nincs Vé csökkenés és Mestervágás)">
 							<input type="radio" name="system" {{ fd.system == 4 ? 'checked' : '' }} value="4"> Passzív Vé Sebzésből
 						</label>
 				</div>

@@ -70,3 +70,15 @@
 .round-stats {
     background: #eee;
 }
+
+.mods {
+    margin-bottom: 15px;
+}
+
+.mods .form-group {
+    margin-bottom: 0;
+}
+
+.mods label {
+    cursor: pointer;
+}

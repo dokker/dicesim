@@ -126,14 +126,19 @@ class Combatant
 
 	/**
 	 * Checks if attack lower than master hit value
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * @param  int $value Roll value to compare
+	 * @param bool $masterhit Masterhit mode enabled
+	 * @return bool        Master hit successful
 	 */
-	public function getMasterHit($value)
+	public function getMasterHit($value, $enabled)
 	{
-		$tens = floor($this->attributes['att'] / 10);
-		if ($value <= $tens) {
-			return true;
+		if ($enabled) {
+			$tens = floor($this->attributes['att'] / 10);
+			if ($value <= $tens) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
