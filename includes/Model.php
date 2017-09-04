@@ -28,6 +28,9 @@ class Model
 		foreach ($combatant as $key => $value) {
 			if (empty($value)) {
 				switch($key) {
+					case 'id':
+						// do nothing
+						break;
 					case 'att':
 						$combatant[$key] = 10;
 						break;

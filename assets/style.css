@@ -82,3 +82,16 @@
 .mods label {
     cursor: pointer;
 }
+
+.combatant_results h3 {
+    margin-top: 0;
+}
+
+.combatant_results {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.combatant_results .label {
+    font-size: 0.98em;
+}

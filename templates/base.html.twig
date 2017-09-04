@@ -22,12 +22,19 @@
 
 {% if test %}
 <div class="bs-callout bs-callout-info stats">
-	<h3>Test stats summary</h3>
-	<p>Average rounds: {{ test.stats.average_rounds }}</p>
-	<h4>Winners</h4>
-	{% for key, wins in test.stats.most_winner %}
-		<p>{{ key }}: {{ wins }}</p>
+	<div class="row">
+	<div class="combatant_results col-sm-4">
+		<h3>Test stats summary</h3>
+		<p>Average rounds: <span class="label label-danger">{{ test.stats.average_rounds }}</span></p>
+	</div>
+	{% for key, winner in test.stats.most_winner %}
+		<div class="combatant_results col-sm-4">
+			<h4>{{ winner.name }}</h4>
+			<p>Wins: <span class="label label-success">{{ winner.wins }}</span></p>
+			<p>AVG HP: <span class="label label-primary">{{ winner.hp_avg }}</span></p>
+		</div>
 	{% endfor %}
+	</div>
 </div>
 <div id="accordion" class="panel-group">
 	{% for battle in test.battles %}

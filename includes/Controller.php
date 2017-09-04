@@ -81,7 +81,11 @@ class Controller
 	{
 		$this->battleReset();
 		$this->execRound();
-		$this->battle_data['winner'] = $this->combatants[$this->active_combatant]->getName();
+		$this->battle_data['winner'] = [
+			'id' => $this->combatants[$this->active_combatant]->getID(),
+			'hp' => $this->combatants[$this->active_combatant]->getHP(),
+		];
+
 		// negate by 1 because execRound has already incremented it
 		$this->battle_data['rounds_num'] = $this->round - 1;
 		$this->battleStats();
@@ -383,11 +387,20 @@ class Controller
 		}
 		$winners = [];
 		foreach ($this->battle_wins as $winner) {
-			if (!array_key_exists($winner, $winners)) {
-				$winners[$winner] = 1;
+			if (!array_key_exists($winner['id'], $winners)) {
+				$winners[$winner['id']] = [
+					'wins' => 1,
+					'hp_sum' => $winner['hp'],
+					'name' => $this->combatants[$winner['id'] - 1]->getName(),
+				];
 			} else {
-				$winners[$winner] = $winners[$winner] + 1;
+				$winners[$winner['id']]['wins'] = $winners[$winner['id']]['wins'] + 1;
+				$winners[$winner['id']]['hp_sum'] = $winners[$winner['id']]['hp_sum'] + $winner['hp'];
 			}
+		}
+
+		foreach ($winners as $key => $winner) {
+			$winners[$key]['hp_avg'] = round($winner['hp_sum'] / $winner['wins']);
 		}
 		return $winners;
 	}

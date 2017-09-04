@@ -175,6 +175,11 @@ class Combatant
 		return $this->attributes['name'];
 	}
 
+	public function getID()
+	{
+		return $this->attributes['id'];
+	}
+
 	public function reset()
 	{
 		$this->temp_hp = $this->attributes['hp'];
