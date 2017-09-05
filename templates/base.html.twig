@@ -23,14 +23,14 @@
 {% if test %}
 <div class="bs-callout bs-callout-info stats">
 	<div class="row">
-	<div class="combatant_results col-sm-4">
+	<div class="combatant_results col-sm-3">
 		<h3>Test stats summary</h3>
 		<p>Average rounds: <span class="label label-danger">{{ test.stats.average_rounds }}</span></p>
 	</div>
 	{% for key, winner in test.stats.most_winner %}
-		<div class="combatant_results col-sm-4">
+		<div class="combatant_results col-sm-2">
 			<h4>{{ winner.name }}</h4>
-			<p>Wins: <span class="label label-success">{{ winner.wins }}</span></p>
+			<p>Wins: <span class="label label-success">{{ winner.wins }}</span> <span class="">({{ winner.wins_avg }}%)</span></p>
 			<p>AVG HP: <span class="label label-primary">{{ winner.hp_avg }}</span></p>
 		</div>
 	{% endfor %}

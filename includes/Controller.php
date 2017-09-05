@@ -11,6 +11,7 @@ class Controller
 	private $attack;
 	private $def;
 	private $round = 1;
+	private $rounds_total = 0;
 	private $battle = 1;
 	private $active_combatant;
 	private $battle_wins = [];
@@ -401,6 +402,7 @@ class Controller
 
 		foreach ($winners as $key => $winner) {
 			$winners[$key]['hp_avg'] = round($winner['hp_sum'] / $winner['wins']);
+			$winners[$key]['wins_avg'] = round($winner['wins'] / ($this->battle - 1) * 100);
 		}
 		return $winners;
 	}
