@@ -53,6 +53,7 @@ class Controller
 
 			$this->formdata['mod_loose_turn'] = !empty($_POST['mod_loose_turn']);
 			$this->formdata['mod_master_hit'] = !empty($_POST['mod_master_hit']);
+			$this->formdata['passive_percent'] = intval($_POST['passive_percent']);
 
 			$this->startTest($battles);
 		} else {
@@ -113,11 +114,18 @@ class Controller
 		$this->active_combatant = $this->getInit();
 		$this->activateCombatant();
 
+		if ($this->formdata['system'] == 5) {
+			$c1_def = $this->combatants[0]->getPassiveDef($this->formdata['passive_percent']);
+			$c2_def = $this->combatants[1]->getPassiveDef($this->formdata['passive_percent']);
+		} else {
+			$c1_def = $this->combatants[0]->getDef();
+			$c2_def = $this->combatants[1]->getDef();
+		}
 		$round_stats = [
-			'c1_def' => $this->combatants[0]->getDef(),
+			'c1_def' => $c1_def,
 			'c1_hp'	=>	$this->combatants[0]->getHP(),
 			'c1_name' => $this->combatants[0]->getName(),
-			'c2_def' => $this->combatants[1]->getDef(),
+			'c2_def' => $c2_def,
 			'c2_hp'	=>	$this->combatants[1]->getHP(),
 			'c2_name' => $this->combatants[1]->getName(),
 		];
@@ -265,7 +273,7 @@ class Controller
 				if ($attacker->attack($percentile_att)) {
 					$damage = $this->getHighest($this->attack);
 
-					if ($percentile_att > $enemy->getPassiveDef() || $attacker->getMasterHit($percentile_att, $masterhit)) {
+					if ($percentile_att > $enemy->getPassiveDef($this->formdata['passive_percent']) || $attacker->getMasterHit($percentile_att, $masterhit)) {
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
 						$hpdamage = $enemy->injure($hpdamage, $looseturn);
 						$defdamage = 0;

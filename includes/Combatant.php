@@ -6,7 +6,6 @@ class Combatant
 	private $attributes;
 	private $temp_hp;
 	private $temp_def;
-	private $passive_def;
 	private $actions;
 	private $attacks;
 
@@ -14,7 +13,6 @@ class Combatant
 	{
 		$this->attributes = $attributes;
 		$this->reset();
-		$this->passive_def = round($this->temp_def * 0.40, 0, PHP_ROUND_HALF_UP);
 	}
 
 	/**
@@ -78,9 +76,9 @@ class Combatant
 	 * Get passive defense value
 	 * @return int Defense value
 	 */
-	public function getPassiveDef()
+	public function getPassiveDef($percent = 40)
 	{
-		return $this->passive_def;
+		return round($this->temp_def * ($percent / 100), 0, PHP_ROUND_HALF_UP);
 	}
 
 	public function getArmor()

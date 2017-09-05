@@ -118,9 +118,15 @@
 			<div class="col-sm-4">
 				<h3>Simulation settings</h3>
 				<div class="form-group">
-					<label class="control-label col-xs-3" for="battles"># Battles</label>
+					<label class="control-label col-xs-4" for="battles" data-toggle="tooltip" data-placement="left" title="Az itt megadott számú csata kerül tesztelésre."># Battles</label>
 					<div class="col-xs-8">
 						<input class="form-control" id="battles" placeholder="# Battles" name="battles" value="{{ fd.battles ? fd.battles : '100' }}"></input>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-4" for="passive_percent" data-toggle="tooltip" data-placement="left" title="A Passzív Vé-nek az itt megadott százaléka számít védekezéskor. (Ha nincs beállítva Vé csökkenés akkor lehetőleg 80 fölé ne adjuk meg ezt az értéket.)">Passzív Vé %</label>
+					<div class="col-xs-8">
+						<input class="form-control" id="passive_percent" placeholder="Passzív Vé %" name="passive_percent" value="{{ fd.passive_percent ? fd.passive_percent : '40' }}"></input>
 					</div>
 				</div>
 				<div class="mods">
@@ -155,7 +161,7 @@
 						</label>
 				</div>
 				<div class="radio">
-						<label data-toggle="tooltip" data-placement="left" title="Vé 40 százaléka passzív értékként. (nincs Vé csökkenés)">
+						<label data-toggle="tooltip" data-placement="left" title="Vé fent megadott százaléka passzív értékként. (nincs Vé csökkenés)">
 							<input type="radio" name="system" {{ fd.system == 5 ? 'checked' : '' }} value="5"> Passzív Védekezés
 						</label>
 				</div>
