@@ -85,6 +85,7 @@ class Controller
 		$this->battle_data['winner'] = [
 			'id' => $this->combatants[$this->active_combatant]->getID(),
 			'hp' => $this->combatants[$this->active_combatant]->getHP(),
+			'name' => $this->combatants[$this->active_combatant]->getName(),
 		];
 
 		// negate by 1 because execRound has already incremented it
@@ -392,7 +393,7 @@ class Controller
 				$winners[$winner['id']] = [
 					'wins' => 1,
 					'hp_sum' => $winner['hp'],
-					'name' => $this->combatants[$winner['id'] - 1]->getName(),
+					'name' => $winner['name'],
 				];
 			} else {
 				$winners[$winner['id']]['wins'] = $winners[$winner['id']]['wins'] + 1;
