@@ -15,6 +15,10 @@ class ComposerStaticInit94b1e457d2fceb9341590b8ae49aa1bb
         array (
             'diceSim\\' => 8,
         ),
+        'T' => 
+        array (
+            'Twig\\Extensions\\' => 16,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -26,6 +30,10 @@ class ComposerStaticInit94b1e457d2fceb9341590b8ae49aa1bb
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
+        'Twig\\Extensions\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/extensions/src',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -35,6 +43,10 @@ class ComposerStaticInit94b1e457d2fceb9341590b8ae49aa1bb
     public static $prefixesPsr0 = array (
         'T' => 
         array (
+            'Twig_Extensions_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/extensions/lib',
+            ),
             'Twig_' => 
             array (
                 0 => __DIR__ . '/..' . '/twig/twig/lib',

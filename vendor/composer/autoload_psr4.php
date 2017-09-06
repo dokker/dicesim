@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'diceSim\\' => array($baseDir . '/includes'),
+    'Twig\\Extensions\\' => array($vendorDir . '/twig/extensions/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
 );

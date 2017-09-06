@@ -23,12 +23,30 @@ class Controller
 	public function __construct()
 	{
 		$this->dice = new \diceSim\Dice(['sides' => 10]);
+		$this->init_i18n();
 
 		$loader = new \Twig_Loader_Filesystem('templates');
 		$this->twig = new \Twig_Environment($loader, ['debug' => true]);
 		$this->twig->addExtension(new \Twig_Extension_Debug());
+		$this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
 
 		$this->handle_requests();
+	}
+
+	/**
+	 * Configure gettext PHP extension
+	 */
+	private function init_i18n()
+	{
+		putenv('LC_ALL=hu_HU');
+		setlocale(LC_ALL, 'hu_HU');
+
+		// Specify the location of the translation tables
+		bindtextdomain('dicesim', 'includes/locale');
+		bind_textdomain_codeset('dicesim', 'UTF-8');
+
+		// Choose domain
+		textdomain('dicesim');
 	}
 
 	private function handle_requests()
