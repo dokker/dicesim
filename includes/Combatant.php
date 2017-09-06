@@ -6,6 +6,7 @@ class Combatant
 	private $attributes;
 	private $temp_hp;
 	private $temp_def;
+	private $passive_def = null;
 	private $actions;
 	private $attacks;
 
@@ -40,13 +41,18 @@ class Combatant
 
 	public function injureDef(int $amount)
 	{
-		$origdef = $this->temp_def;
-		$newdef = $this->temp_def - $amount;
+		if ($this->passive_def == null) {
+			$tempdef = &$this->temp_def;
+		} else {
+			$tempdef = &$this->passive_def;
+		}
+		$origdef = $tempdef;
+		$newdef = $tempdef - $amount;
 		if ($origdef > 0) {
 			if ($newdef > 0) {
-				$this->temp_def = $newdef;
+				$tempdef = $newdef;
 			} else {
-				$this->temp_def = 0;
+				$tempdef = 0;
 			}
 			return $origdef - $newdef;
 		} else {
@@ -78,7 +84,10 @@ class Combatant
 	 */
 	public function getPassiveDef($percent = 40)
 	{
-		return round($this->temp_def * ($percent / 100), 0, PHP_ROUND_HALF_UP);
+		if ($this->passive_def == null) {
+			$this->passive_def =  round($this->attributes['def'] * ($percent / 100), 0, PHP_ROUND_HALF_UP);
+		}
+		return $this->passive_def;
 	}
 
 	public function getArmor()

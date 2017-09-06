@@ -166,6 +166,11 @@
 						</label>
 				</div>
 				<div class="radio">
+						<label data-toggle="tooltip" data-placement="left" title="Vé fent megadott százaléka passzív értékként. Vé csökkenéssel.">
+							<input type="radio" name="system" {{ fd.system == 3 ? 'checked' : '' }} value="3"> Passzív Védekezés Vé csökkenéssel
+						</label>
+				</div>
+				<div class="radio">
 						<label data-toggle="tooltip" data-placement="left" title="Dobni kell a védekezésre. (nincs Vé csökkenés)">
 							<input type="radio" name="system" {{ fd.system == 6 ? 'checked' : '' }} value="6"> Aktív Védekezés
 						</label>

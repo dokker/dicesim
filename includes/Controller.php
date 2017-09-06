@@ -132,7 +132,7 @@ class Controller
 		$this->active_combatant = $this->getInit();
 		$this->activateCombatant();
 
-		if ($this->formdata['system'] == 5) {
+		if ($this->formdata['system'] == 5 || $this->formdata['system'] == 3) {
 			$c1_def = $this->combatants[0]->getPassiveDef($this->formdata['passive_percent']);
 			$c2_def = $this->combatants[1]->getPassiveDef($this->formdata['passive_percent']);
 		} else {
@@ -275,6 +275,33 @@ class Controller
 						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor() - floor($enemy->getDef() / 10)) : 0;
 						$hpdamage = $enemy->injure($hpdamage, $looseturn);
 						$defdamage = 0;
+					$success = true;
+				}
+			break;
+			case 3: // Passive Def with decreasing Def
+				// roll attack
+				$this->attack = [
+					$this->dice->roll(),
+					$this->dice->roll()
+				];
+
+				// Handle attack
+				$success = false;
+				$percentile_att = $this->normalizeD100($this->attack);
+				if ($attacker->attack($percentile_att)) {
+					$damage = $this->getHighest($this->attack);
+
+					if ($percentile_att > $enemy->getPassiveDef($this->formdata['passive_percent']) || $attacker->getMasterHit($percentile_att, $masterhit)) {
+						$hpdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+						$hpdamage = $enemy->injure($hpdamage, $looseturn);
+						$defdamage = $enemy->injureDef($hpdamage);
+					} else {
+						$defdamage = ($damage - $enemy->getArmor()) > 0 ? ($damage - $enemy->getArmor()) : 0;
+						$defdamage = $enemy->injureDef($defdamage);
+						if ($defdamage < 0) {
+							$hpdamage = $enemy->injure(abs($defdamage), $looseturn);
+						}
+					}
 					$success = true;
 				}
 			break;
