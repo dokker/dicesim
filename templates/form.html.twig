@@ -4,58 +4,58 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h4 class="panel-title">
-			<a data-toggle="collapse" href="#collapse1">Combat stats</a>
+			<a data-toggle="collapse" href="#collapse1">Statisztika adatai</a>
 		</h4>
 	</div>
 	<form class="panel-body panel-collapse collapse in form-horizontal" id="collapse1" method="post">
 		<div class="row">
 			<div class="col-sm-4">
-				<h3>Combatant 1</h3>
+				<h3>Harcos 1</h3>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c1-name">Name of C1</label>
+					<label class="control-label col-xs-5" for="c1-name">Név (H1)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-name" placeholder="Combatant1 name" name="c1[name]" value="{{ fd.c1.name ? fd.c1.name : 'Master' }}"></input>
+						<input class="form-control" id="c1-name" placeholder="Név (H1)" name="c1[name]" value="{{ fd.c1.name ? fd.c1.name : 'Mester' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c1-init">Initiate of C1</label>
+					<label class="control-label col-xs-5" for="c1-init">Ké (H1)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-init" placeholder="Initiate of C1" name="c1[init]"
+						<input class="form-control" id="c1-init" placeholder="Ké (H1)" name="c1[init]"
 						value="{{ fd.c1.init ? fd.c1.init : '10' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c1-att">Attack of C1</label>
+					<label class="control-label col-xs-5" for="c1-att">Té (H1)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-att" placeholder="Attack of C1" name="c1[att]"
+						<input class="form-control" id="c1-att" placeholder="Té (H1)" name="c1[att]"
 						value="{{ fd.c1.att ? fd.c1.att : '40' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c1-def">Defense of C1</label>
+					<label class="control-label col-xs-5" for="c1-def">Vé (H1)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-def" placeholder="Defense of C1" name="c1[def]"
+						<input class="form-control" id="c1-def" placeholder="Vé (H1)" name="c1[def]"
 						value="{{ fd.c1.def ? fd.c1.def : '40' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c1-hp">HP of C1</label>
+					<label class="control-label col-xs-5" for="c1-hp">Ép (H1)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-hp" placeholder="HP of C1" name="c1[hp]"
+						<input class="form-control" id="c1-hp" placeholder="Ép (H1)" name="c1[hp]"
 						value="{{ fd.c1.hp ? fd.c1.hp : '12' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c1-armor">Armor of C1</label>
+					<label class="control-label col-xs-5" for="c1-armor">SFÉ (H1)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-armor" placeholder="Armor of C1" name="c1[armor]"
+						<input class="form-control" id="c1-armor" placeholder="SFÉ (H1)" name="c1[armor]"
 						value="{{ fd.c1.armor ? fd.c1.armor : '0' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c1-xatt"># Attacks of C1</label>
+					<label class="control-label col-xs-5" for="c1-xatt">Támadások (H1)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c1-x2" placeholder="# Attacks of C1" name="c1[x2]"
+						<input class="form-control" id="c1-x2" placeholder="Támadások (H1)" name="c1[x2]"
 						value="{{ fd.c1.x2 ? fd.c1.x2 : '1' }}"></input>
 					</div>
 				</div>
@@ -63,62 +63,62 @@
 			</div>
 
 			<div class="col-sm-4">
-				<h3>Combatant 2</h3>
+				<h3>Harcos 2</h3>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c2-name">Name of C2</label>
+					<label class="control-label col-xs-5" for="c2-name">Név (H2)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-name" placeholder="Combatant1 name" name="c2[name]" value="{{ fd.c2.name ? fd.c2.name : 'Novice' }}"></input>
+						<input class="form-control" id="c2-name" placeholder="Név (H2)" name="c2[name]" value="{{ fd.c2.name ? fd.c2.name : 'Tanítvány' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c2-init">Initiate of C2</label>
+					<label class="control-label col-xs-5" for="c2-init">Ké (H2)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-init" placeholder="Initiate of C2" name="c2[init]"
+						<input class="form-control" id="c2-init" placeholder="Ké (H2)" name="c2[init]"
 						value="{{ fd.c2.init ? fd.c2.init : '10' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-5" for="c2-att"
-					value="">Attack of C2</label>
+					value="">Té (H2)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-att" placeholder="Attack of C2" name="c2[att]"
+						<input class="form-control" id="c2-att" placeholder="Té (H2)" name="c2[att]"
 						value="{{ fd.c2.att ? fd.c2.att : '40' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c2-def">Defense of C2</label>
+					<label class="control-label col-xs-5" for="c2-def">Vé (H2)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-def" placeholder="Defense of C2" name="c2[def]"
+						<input class="form-control" id="c2-def" placeholder="Vé (H2)" name="c2[def]"
 						value="{{ fd.c2.def ? fd.c2.def : '40' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c2-hp">HP of C2</label>
+					<label class="control-label col-xs-5" for="c2-hp">Ép (H2)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-hp" placeholder="HP of C2" name="c2[hp]"
+						<input class="form-control" id="c2-hp" placeholder="Ép (H2)" name="c2[hp]"
 						value="{{ fd.c2.hp ? fd.c2.hp : '12' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c2-armor">Armor of C2</label>
+					<label class="control-label col-xs-5" for="c2-armor">SFÉ (H2)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-armor" placeholder="Armor of C2" name="c2[armor]"
+						<input class="form-control" id="c2-armor" placeholder="SFÉ (H2)" name="c2[armor]"
 						value="{{ fd.c2.armor ? fd.c2.armor : '0' }}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-5" for="c2-xatt"># Attacks of C2</label>
+					<label class="control-label col-xs-5" for="c2-xatt">Támadások (H2)</label>
 					<div class="col-xs-7">
-						<input class="form-control" id="c2-x2" placeholder="# Attacks of C2" name="c2[x2]"
+						<input class="form-control" id="c2-x2" placeholder="Támadások (H2)" name="c2[x2]"
 						value="{{ fd.c2.x2 ? fd.c2.x2 : '1' }}"></input>
 					</div>
 				</div>
 				<input id="c2-id" name="c2[id]" value="2" type="hidden"></input>
 			</div>
 			<div class="col-sm-4">
-				<h3>Simulation settings</h3>
+				<h3>Teszt beállításai</h3>
 				<div class="form-group">
-					<label class="control-label col-xs-4" for="battles" data-toggle="tooltip" data-placement="left" title="Az itt megadott számú csata kerül tesztelésre."># Battles</label>
+					<label class="control-label col-xs-4" for="battles" data-toggle="tooltip" data-placement="left" title="Az itt megadott számú csata kerül tesztelésre."># Csaták</label>
 					<div class="col-xs-8">
 						<input class="form-control" id="battles" placeholder="# Battles" name="battles" value="{{ fd.battles ? fd.battles : '100' }}"></input>
 					</div>
@@ -172,7 +172,7 @@
 				</div>
 				<div class="form-group submitbox">
 					<div class="col-xs-12">
-						<button type="submit" class="btn btn-lg btn-primary btn-block">Start simulation</button>
+						<button type="submit" class="btn btn-lg btn-primary btn-block">Teszt végrehajtása</button>
 					</div>
 				</div>
 			</div>
