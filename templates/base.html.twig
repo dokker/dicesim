@@ -30,7 +30,7 @@
 	{% for key, winner in test.stats.most_winner %}
 		<div class="combatant_results col-sm-2">
 			<h4>{{ winner.name }}</h4>
-			<p>Nyert körök: <span class="label label-success">{{ winner.wins }}</span> <span class="">({{ winner.wins_avg }}%)</span></p>
+			<p>Nyert kör: <span class="label label-success">{{ winner.wins }}</span> <span class="">({{ winner.wins_avg }}%)</span></p>
 			<p>Átlag Ép: <span class="label label-primary">{{ winner.hp_avg }}</span></p>
 		</div>
 	{% endfor %}
