@@ -28,7 +28,7 @@ class Controller
 		$loader = new \Twig_Loader_Filesystem('templates');
 		$this->twig = new \Twig_Environment($loader, ['debug' => true]);
 		$this->twig->addExtension(new \Twig_Extension_Debug());
-		$this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
+		// $this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
 
 		$this->handle_requests();
 	}
