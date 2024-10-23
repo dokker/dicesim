@@ -54,8 +54,8 @@ class Controller
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$model = new \diceSim\Model();
 
-			$c1 = filter_input(INPUT_POST, c1, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-			$c2 = filter_input(INPUT_POST, c2, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+			$c1 = filter_input(INPUT_POST, 'c1', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+			$c2 = filter_input(INPUT_POST, 'c2', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
 			$c1 = $model->sanitize_combatant($c1);
 			$c2 = $model->sanitize_combatant($c2);
 
