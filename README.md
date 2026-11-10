@@ -41,6 +41,18 @@ php -S localhost:8000
 Then open <http://localhost:8000>. On Apache or nginx, point the document root at the
 project directory and use `index.php` as the index file.
 
+### With Docker
+
+No local PHP or Composer needed:
+
+```bash
+docker compose up --build        # app on http://localhost:8000
+docker compose run --rm app composer test   # run the test suite
+```
+
+The project directory is mounted into the container, so code changes show up without a
+rebuild. After changing `composer.json`, run `docker compose run --rm app composer install`.
+
 ## Usage
 
 1. Fill in the stats of **Harcos 1** and **Harcos 2** (Fighter 1 and 2).

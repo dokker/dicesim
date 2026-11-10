@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      # A vendor könyvtár a konténerben marad, a host-on lévő (vagy hiányzó) vendor nem írja felül.
+      - vendor:/app/vendor
+
+volumes:
+  vendor:
