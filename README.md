@@ -53,6 +53,20 @@ docker compose run --rm app composer test   # run the test suite
 The project directory is mounted into the container, so code changes show up without a
 rebuild. After changing `composer.json`, run `docker compose run --rm app composer install`.
 
+Managing the container:
+
+```bash
+docker compose up -d --build     # start in the background
+docker compose logs -f           # follow the logs
+docker compose stop              # stop (keeps the container)
+docker compose down              # stop and remove the container
+docker compose down -v           # also remove the vendor volume
+docker compose ps                # show status
+```
+
+The app does **not** start automatically when the machine or Docker starts
+(`restart: "no"` in `compose.yaml`); start it by hand with `docker compose up`.
+
 ## Usage
 
 1. Fill in the stats of **Harcos 1** and **Harcos 2** (Fighter 1 and 2).

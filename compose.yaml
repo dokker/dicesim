@@ -1,6 +1,8 @@
 services:
   app:
     build: .
+    # Nem indul el automatikusan a gép/Docker indulásakor.
+    restart: "no"
     ports:
       - "8000:8000"
     volumes:
