@@ -1,4 +1,4 @@
 # DiceSim
 
 ## Installation
-Run `composer install` and begin test!
+Run `composer install` and let's begin!
