@@ -3,16 +3,19 @@ namespace diceSim;
 
 class Dice
 {
-	private $attributes;
+	private $sides;
 
-	public function __construct (array $attributes)
+	public function __construct(array $attributes = ['sides' => 10])
 	{
-		$this->attributes = $attributes;
+		$this->sides = (int)$attributes['sides'];
 	}
 
+	/**
+	 * Roll the dice once
+	 * @return int Result between 1 and the number of sides
+	 */
 	public function roll()
 	{
-		$roll = rand(1, $this->attributes['sides']);
-		return (int)$roll;
+		return random_int(1, $this->sides);
 	}
 }

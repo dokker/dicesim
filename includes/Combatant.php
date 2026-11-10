@@ -7,8 +7,7 @@ class Combatant
 	private $temp_hp;
 	private $temp_def;
 	private $passive_def = null;
-	private $actions;
-	private $attacks;
+	private $actions = 0;
 
 	public function __construct(array $attributes)
 	{
@@ -18,51 +17,45 @@ class Combatant
 
 	/**
 	 * Handle injuries
-	 * @param  int    $amount Amount of injury
-	 * @return int         Actual state of HP
+	 * @param  int  $amount     Amount of injury (negative values are treated as 0)
+	 * @param  bool $loose_turn Lose one remaining attack when wounded
+	 * @return int              HP actually lost
 	 */
 	public function injure(int $amount, $loose_turn = false)
 	{
-		$hp = $this->temp_hp;
-		$hp = $hp - $amount;
-		if ($hp < 1) {
-			$hp = 0;
-		}
+		$amount = max(0, $amount);
+		$hp = max(0, $this->temp_hp - $amount);
 		$difference = $this->temp_hp - $hp;
 		$this->temp_hp = $hp;
 
-		// If loose turn is active
-		if ($loose_turn && ($amount > 0) && $this->hasAction()) {
+		if ($loose_turn && $difference > 0 && $this->hasAction()) {
 			$this->actions--;
 		}
 
 		return $difference;
 	}
 
+	/**
+	 * Lower the defense value. Lowers the passive defense when it is in use.
+	 * @param  int $amount Amount of defense loss
+	 * @return int         Defense actually lost
+	 */
 	public function injureDef(int $amount)
 	{
-		if ($this->passive_def == null) {
+		$amount = max(0, $amount);
+		if ($this->passive_def === null) {
 			$tempdef = &$this->temp_def;
 		} else {
 			$tempdef = &$this->passive_def;
 		}
 		$origdef = $tempdef;
-		$newdef = $tempdef - $amount;
-		if ($origdef > 0) {
-			if ($newdef > 0) {
-				$tempdef = $newdef;
-			} else {
-				$tempdef = 0;
-			}
-			return $origdef - $newdef;
-		} else {
-			return 0;
-		}
+		$tempdef = max(0, $tempdef - $amount);
+		return $origdef - $tempdef;
 	}
 
 	/**
 	 * Get init value
-	 * @return int Defense value
+	 * @return int Initiative value
 	 */
 	public function getInit()
 	{
@@ -79,13 +72,15 @@ class Combatant
 	}
 
 	/**
-	 * Get passive defense value
-	 * @return int Defense value
+	 * Get passive defense value. It is calculated from the base defense
+	 * on the first call of a battle and lowered by injureDef() afterwards.
+	 * @param  int $percent Percent of the base defense used as passive defense
+	 * @return int          Passive defense value
 	 */
 	public function getPassiveDef($percent = 40)
 	{
-		if ($this->passive_def == null) {
-			$this->passive_def =  round($this->attributes['def'] * ($percent / 100), 0, PHP_ROUND_HALF_UP);
+		if ($this->passive_def === null) {
+			$this->passive_def = (int)round($this->attributes['def'] * ($percent / 100), 0, PHP_ROUND_HALF_UP);
 		}
 		return $this->passive_def;
 	}
@@ -101,63 +96,51 @@ class Combatant
 	}
 
 	/**
-	 * Execute an attack
+	 * Execute an attack, using up one action
 	 * @param  int $value Random attack value
-	 * @return bool        Attack success
+	 * @return bool       Attack success
 	 */
 	public function attack($value)
 	{
-		if ($this->hasAction()) {
-			$this->actions--;
-			if ($value <= $this->attributes['att']) {
-				$this->attacks[] = true;
-				return true;
-			}
-			$this->attacks[] = false;
+		if (!$this->hasAction()) {
+			return false;
 		}
-		return false;
+		$this->actions--;
+		return $value <= $this->attributes['att'];
 	}
 
 	/**
 	 * Execute a defense
 	 * @param  int $value Random defense value
-	 * @return bool        Defense success
+	 * @return bool       Defense success
 	 */
 	public function defense($value)
 	{
-		if ($value <= $this->attributes['def']) {
-			return true;
-		}
-		return false;
+		return $value <= $this->attributes['def'];
 	}
 
 	/**
-	 * Checks if attack lower than master hit value
-	 * @param  int $value Roll value to compare
-	 * @param bool $masterhit Masterhit mode enabled
-	 * @return bool        Master hit successful
+	 * Checks if attack is lower than the master hit value (tens of the attack value)
+	 * @param  int  $value   Roll value to compare
+	 * @param  bool $enabled Masterhit mode enabled
+	 * @return bool          Master hit successful
 	 */
 	public function getMasterHit($value, $enabled)
 	{
-		if ($enabled) {
-			$tens = floor($this->attributes['att'] / 10);
-			if ($value <= $tens) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
+		if (!$enabled) {
 			return false;
 		}
+		return $value <= floor($this->attributes['att'] / 10);
 	}
 
 	public function hasAction()
 	{
-		if ($this->actions > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return $this->actions > 0;
+	}
+
+	public function getActions()
+	{
+		return $this->actions;
 	}
 
 	/**
@@ -170,11 +153,7 @@ class Combatant
 
 	public function died()
 	{
-		if ($this->temp_hp > 0) {
-			return false;
-		} else {
-			return true;
-		}
+		return $this->temp_hp <= 0;
 	}
 
 	public function getName()
@@ -187,9 +166,14 @@ class Combatant
 		return $this->attributes['id'];
 	}
 
+	/**
+	 * Restore the combatant before a new battle
+	 */
 	public function reset()
 	{
 		$this->temp_hp = $this->attributes['hp'];
 		$this->temp_def = $this->attributes['def'];
+		$this->passive_def = null;
+		$this->actions = 0;
 	}
 }

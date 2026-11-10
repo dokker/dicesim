@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
   <title>Kétparaszt</title>
   <meta charset="utf-8">
@@ -26,11 +26,14 @@
 	<div class="combatant_results col-sm-3">
 		<h3>Teszt összesítése</h3>
 		<p> Átlagos körök: <span class="label label-danger">{{ test.stats.average_rounds }}</span></p>
+		{% if test.stats.draws > 0 %}
+		<p> Döntetlen: <span class="label label-default">{{ test.stats.draws }}</span></p>
+		{% endif %}
 	</div>
 	{% for key, winner in test.stats.most_winner %}
 		<div class="combatant_results col-sm-2">
 			<h4>{{ winner.name }}</h4>
-			<p>Nyert kör: <span class="label label-success">{{ winner.wins }}</span> <span class="">({{ winner.wins_avg }}%)</span></p>
+			<p>Nyert csata: <span class="label label-success">{{ winner.wins }}</span> <span class="">({{ winner.wins_avg }}%)</span></p>
 			<p>Átlag Ép: <span class="label label-primary">{{ winner.hp_avg }}</span></p>
 		</div>
 	{% endfor %}
@@ -41,7 +44,7 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h2 class="panel-title">
-					<a data-toggle="collapse" href="#collapse-{{ loop.index }}" data-parent="#accordion">#{{ loop.index }}. csata nyertese {{ battle.winner.name }} {{ battle.rounds_num }} kör alatt</a>
+					<a data-toggle="collapse" href="#collapse-{{ loop.index }}" data-parent="#accordion">{% if battle.winner %}#{{ loop.index }}. csata nyertese {{ battle.winner.name }} {{ battle.rounds_num }} kör alatt{% else %}#{{ loop.index }}. csata döntetlen {{ battle.rounds_num }} kör után{% endif %}</a>
 				</h2>
 			</div>
 			<div id="collapse-{{ loop.index }}" class="panel-collapse collapse">
